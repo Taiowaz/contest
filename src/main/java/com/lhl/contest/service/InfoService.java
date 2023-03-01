@@ -43,15 +43,7 @@ public class InfoService {
             //获取相关信息
             infoList = infoMapper.search("%" + keyword + "%");
         }
-        for (Info info : infoList) {
-            //获取Img类列表
-            List<Img> imgList = info.getImgList();
-            //对信息卡片中的图片列表中的图片转化为MultipartFile文件，并保存地址
-            for (Img img : imgList) {
-                img.setImgPath(getImgPath(img));
-            }
-        }
-        return infoList;
+        return dealInfo(infoList);
     }
 
     //根据Id获取信息
@@ -66,6 +58,26 @@ public class InfoService {
         return info;
     }
 
+    //根据类别获取信息
+    public List<Info> getInfoByType(String keyword) throws IOException {
+        List<Info> infoList = infoMapper.searchByType(keyword);
+        return dealInfo(infoList);
+    }
+
+    //对数据库读取的多个信息进行处理
+    public List<Info> dealInfo(List<Info> infoList) throws IOException {
+        if (infoList != null) {
+            for (Info info : infoList) {
+                //获取Img类列表
+                List<Img> imgList = info.getImgList();
+                //对信息卡片中的图片列表中的图片转化为MultipartFile文件，并保存地址
+                for (Img img : imgList) {
+                    img.setImgPath(getImgPath(img));
+                }
+            }
+        }
+        return infoList;
+    }
 
     //将数据库读取的比特格式图片转化为MultipartFile文件，并保存在服务器上，返回地址
     public String getImgPath(Img img) throws IOException {

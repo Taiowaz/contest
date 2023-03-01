@@ -2,6 +2,7 @@ package com.lhl.contest.controller;
 
 import com.lhl.contest.entity.Info;
 import com.lhl.contest.entity.InfoPara;
+import com.lhl.contest.entity.Type;
 import com.lhl.contest.service.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,19 @@ public class InfoController {
     public Info getInfoById(@RequestParam("id") int id) throws IOException {
         return infoService.getInfoById(id);
     }
+    //通过类型获取信息
+    @GetMapping("/getInfoByType")
+    public List getInfoByType(@RequestParam("type") int type) throws IOException {
+        switch (type){
+            case 1:
+                return infoService.getInfoByType("经济");
+            case 2:
+                return infoService.getInfoByType("文化");
+            default:
+                return infoService.getInfoByType("生活");
+        }
+    }
+
 
 
     //测试！！！上传信息

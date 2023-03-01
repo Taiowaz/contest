@@ -70,4 +70,23 @@ public interface InfoMapper extends BaseMapper<Info> {
     @Insert("insert into info(title,content,type) values(#{infoTitle},#{infoContent},#{infoType})")
     @Options(useGeneratedKeys = true, keyProperty = "infoId", keyColumn = "id")
     int insertInfo(Info info);
+
+
+    //取出特定类别的信息
+    @Select("select * from info where type = #{keyword}")
+    @Results(
+            {
+                    @Result(column = "id", property = "infoId"),
+                    @Result(column = "title", property = "infoTitle"),
+                    @Result(column = "type", property = "infoType"),
+                    @Result(column = "status", property = "infoStatus"),
+                    @Result(column = "id", property = "imgList", javaType = List.class,
+                            many = @Many(select = "com.lhl.contest.mapper.ImgMapper.listImgByInfoId")
+                    ),
+                    @Result(column = "id", property = "infoParaList", javaType = List.class,
+                            many = @Many(select = "com.lhl.contest.mapper.InfoParaMapper.listParaByInfoId")
+                    )
+            }
+    )
+    List<Info> searchByType(String keyword);
 }
