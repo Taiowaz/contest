@@ -4,7 +4,7 @@ document.writeln("<head>");
 document.writeln("    <meta charset=\"UTF-8\">");
 document.writeln("    <title>寻迹京城</title>");
 document.writeln("    <script src=\"/lfk/jquery.js\"></script>");
-document.writeln("    <script src=\"https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js\"></script>");
+document.writeln("    <script src=\"/Map/js/echarts.min.js\"></script>");
 document.writeln("    <link rel=\"stylesheet\" type=\"text/css\" href=\"/lfk/css/head.css\">");
 document.writeln("</head>");
 document.writeln("<body>");
