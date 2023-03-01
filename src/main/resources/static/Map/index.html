@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2572350_vt8vhw864w.css">
+  <script src="https://cdn.bootcss.com/echarts/4.3.0-rc.1/echarts.min.js"></script>
+  <script src="/Map/js_beijing.js"></script>
+  <title>Echarts Test</title>
+  <style>
+    .province_robot_info {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .pri_head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .icon-xiangqing {
+      font-size: 12px;
+      margin-left: 3px;
+    }
+  </style>
+</head>
+
+<body>
+<div id="myEchartsContent" style="width: 100%;height:700px;background-color: orangered;"></div>
+<script type="text/javascript">
+  // 基于准备好的dom，初始化echarts实例
+  var myChart = echarts.init(document.getElementById('myEchartsContent'));
+
+  function randomData() {
+    return Math.round(Math.random() * 500);
+  }
+
+  var areaColor = '#C7FFFD' // 选中后的地图颜色
+  var position = [10, 10] // tooltip初始显示位置
+  var isClickMap = false // 是否点击了地图
+  // 模拟假数据
+  var mydata = [{
+    name: '东城区',
+    operateTime: randomData(),
+    orderAmount: randomData()
+  }, {
+    name: '西城区',
+    operateTime: randomData(),
+    orderAmount: randomData()
+  },
+    {
+      name: '朝阳区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '丰台区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    },
+    {
+      name: '石景山区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '海淀区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    },
+    {
+      name: '门头沟区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '房山区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    },
+    {
+      name: '通州区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '顺义区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    },
+    {
+      name: '昌平区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '大兴区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    },
+    {
+      name: '怀柔区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '平谷区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    },
+    {
+      name: '密云区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }, {
+      name: '延庆区',
+      operateTime: randomData(),
+      orderAmount: randomData()
+    }
+  ];
+
+  // 处理假数据(根据哪个字段分颜色，哪个字段就改成value)
+  var newMyData = mydata.map((item) => {
+    // console.log(item);
+    return {
+      name: item.name,
+      value: item.operateTime,
+      orderAmount: item.orderAmount
+    }
+  })
+  // console.log(newMyData);
+
+  var optionMap = {
+    backgroundColor: '#FFFFFF',
+    title: {
+      text: '北京市景点概况',
+      subtext: '',
+      x: 'center'
+    },
+    tooltip: {
+      trigger: 'item',
+      enterable: true, // 是否可以移到提示框上
+      // tooltip的初始位置
+      // position,
+      // alwaysShowContent: true, // 是否一直显示tooltip
+      hideDelay: 100, // tooltip隐藏的延迟（alwaysShowContent: true 时无效）
+      triggerOn: "click", // 点击地图后显示tooltip
+
+      // 鼠标悬停在地图上时的省机器人信息
+      formatter: function (params) { //自行定义formatter格式
+        // console.log("formatter params:", params);
+        if (!!params.data) {
+          return `
+            <div class="province_robot_info">
+              <div class="pri_head">
+                <span>${params.name}</span>
+                <span id="btn_xiangqing" class="xiangqing">详情<i class="iconfont icon-xiangqing"></i></span>
+              </div>
+              <span>建议游玩时长: ${params.data.value}天</span>
+              <span>景区数量: ${params.data.orderAmount}个</span>
+            </div>
+            `
+        } else {
+          return
+        }
+      },
+
+      // show: true, //不显示提示标签
+      // formatter: '{b}', //提示标签格式
+      // backgroundColor: "#ff7f50", //提示标签背景颜色
+      // textStyle: {
+      //   color: "#fff"
+      // } //提示标签字体颜色
+
+    },
+
+    //左侧小导航图标
+    visualMap: {
+      show: true,
+      x: 'left',
+      y: 'center',
+      splitList: [{
+        start: 200,
+        end: 300
+      },
+        {
+          start: 100,
+          end: 200
+        }, {
+          start: 0,
+          end: 100
+        },
+
+      ],
+      color: ['#FF9985', '#FFE5DB', '#FFFFFF'],
+    },
+    // 写上了没效果，所以注释
+    // geo: {
+    //   map: 'some_svg'
+    // },
+    //配置属性
+    series: [{
+      name: '数据',
+      type: 'map',
+      mapType: '北京',
+      symbolSize: 14,
+      roam: true,
+      selectedMode: "single", // 选中效果固化,字符串取值可选'single'，'multiple'，'single'单选，'multiple'多选
+      label: {
+        normal: {
+          // formatter: '{b}',
+          show: true //区域名称
+        },
+        emphasis: {
+          show: false
+        }
+      },
+      itemStyle: {
+        emphasis: { // 鼠标悬停选中样式
+          borderWidth: 0,
+          // borderColor: '#fff',
+          areaColor, // 选中后的地图颜色
+          label: {
+            show: true,
+            textStyle: {
+              // color: '#fff'
+            }
+          }
+        }
+      },
+      data: newMyData //数据
+    }]
+  };
+  //使用制定的配置项和数据显示图表
+  myChart.setOption(optionMap);
+
+  // 初始tooltip显示
+  // myChart.dispatchAction({
+  //   type: 'showTip',
+  //   seriesIndex: 0,
+  //   dataIndex: 0,
+  // })
+
+  // 点击全局Echarts触发
+  myChart.getZr().on('click', function () {
+    // 如果isClickMap为true才执行（当你点击了地图后才能触发以下逻辑）
+    if (isClickMap) {
+      isClickMap = false
+      myChart.setOption(optionMap) // 因为Echarts是用canvas绘制出来的，所以在这里进行重绘时就可以实现点击空白(非地图)区域取消选中
+    }
+  })
+
+  // 地图点击事件
+  myChart.on("click", function (params) {
+    isClickMap = true
+    // tooltip 详情点击事件
+    var btnXQEve = document.getElementById("btn_xiangqing")
+    // console.log(btnXQEve);
+    btnXQEve.addEventListener("click", function () {
+      console.log("点击详情打开区域景点详细介绍页面");
+    })
+  })
+
+  // 图表自适应
+  window.addEventListener('resize', function () {
+    myChart.resize()
+  })
+</script>
+</body>
+
+</html>

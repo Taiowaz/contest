@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>寻迹京城</title>
+        <script src="./lfk/jquery.js"></script>
+        <link rel="stylesheet" type="text/css" href="./lfk/css/index.css">
+        <link rel="stylesheet" type="text/css" href="./lfk/css/head.css">
+        <script src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+    </head>
+    <body>
+        <div id="menu">
+            <div id="logo">
+                <img src="./lfk/picture/123.jpg" alt="logo" class="logo">
+            </div>
+            <div id="list"><span>内容分类</span>
+                <div id="D-list"><span id="E-list">经济板块</span><br><span id="C-list">文化板块</span><br><span
+                        id="L-list">生活板块</span></div>
+            </div>
+            <div id="VR"><span>VR游览</span></div>
+            <div id="About"><span>关于我们</span></div>
+            <div id="search" style="float:right">
+                <form action="/lfk/S-content.html" method="get">
+                    <input type="search" id="keyword" name="keyword" placeholder="请输入搜索内容">
+                    <input type="submit" value="搜索" style="border-radius:5px;border-bottom:none;width:60px;">
+                </form>
+            </div>
+        </div>
+        <div>
+            <div id="map">
+                <h1>这里是地图</h1>
+
+            </div>
+            <div id="content">
+                <div id="loading" style="height: 100%;"></div>
+            </div>
+        </div>
+        <script type="text/javascript" src="./lfk/js/loading.js"></script>
+        <script type="text/javascript" src="./lfk/js/index.js"></script>
+        <script type="text/javascript">
+            /*隐藏界面*/
+            $(function () {
+                $("#content").hide()
+            })
+            $(function () {
+                $("#D-list").hide()
+            })
+            /*跳转到主页*/
+            $(function () {
+                $("#logo").click(function () {
+                    window.location.href = "./index.html"
+                })
+            });
+            /*跳转到VR*/
+            $(function () {
+                $("#VR").click(function () {
+                    window.location.href = "./lfk/vr.html"
+                })
+            });
+            /*显示分类*/
+            $(function () {
+                $("#list").hover(function () {
+                    $("#D-list").toggle()
+                })
+            });
+            /*跳转到分类*/
+            $(function () {
+                $("#E-list").click(function () {
+                    window.location.href = "./lfk/E-content.html"
+                })
+            });
+            $(function () {
+                $("#C-list").click(function () {
+                    window.location.href = "./lfk/C-content.html"
+                })
+            });
+            $(function () {
+                $("#L-list").click(function () {
+                    window.location.href = "./lfk/L-content.html"
+                })
+            });
+            /*跳转到我们*/
+            $(function () {
+                $("#About").click(function () {
+                    window.location.href = "./aboutus/aboutus.html"
+                })
+            });
+        </script>
+        <script>
+            $(document).on("mousewheel DOMMouseScroll", function (event) {
+                var delta = (event.originalEvent.wheelDelta && (event.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+                        (event.originalEvent.detail && (event.originalEvent.detail > 0 ? -1 : 1));              // firefox
+                if (delta > 0) {
+                    $("#content").hide();
+                    $("#map").show();
+                } else if (delta < 0) {
+                    $("#content").show();
+                    $("#map").hide();
+                }
+            });
+        </script>
+        <script>
+            /*获取ID*/
+            $("#content").on('click', '.info', function () {
+                var skip = "./lfk/content.html?id=" + $(this).attr("id");
+                window.location.href = skip;
+            });
+            /*地图嵌入*/
+            $(document).ready(function (){
+                $('#map').load('/Map/index.html');
+            })
+        </script>
+    </body>
+</html>

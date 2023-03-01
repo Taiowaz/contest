@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:c="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>寻迹京城</title>
+    <script src="./jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/head.css">
+    <link rel="stylesheet" type="text/css" href="./css/content.css">
+</head>
+<body>
+<script type="text/javascript" src="./js/header.js"></script>
+<div id="T"><h1>生活</h1></div>
+<div id="content">
+    <div id="loading" style="height: 100%"></div>
+</div>
+<script type="text/javascript" src="./js/L-content.js"></script>
+<script type="text/javascript" src="./js/loading.js"></script>
+<script>
+    /*获取ID*/
+    $("#content").on('click','.info',function(){
+    var skip="./content.html?id="+$(this).attr("id");
+    window.location.href=skip;
+    });
+</script>
+</body>
+</html>
